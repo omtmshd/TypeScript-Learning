@@ -1,4 +1,4 @@
-class Department {
+abstract class Department {
   static fiscalYear = 2020
 
   protected employess: string[] = []
@@ -8,15 +8,13 @@ class Department {
   }
 
   constructor(
-    private readonly id: string,
+    protected readonly id: string,
     public name: string,
   ) {
     console.log(Department.fiscalYear)
   }
 
-  discribe(this: Department) {
-    console.log(`Department (${this.id}): ${this.name}`)
-  }
+  abstract discribe(this: Department): void
 
   addEmployee(employee: string) {
     this.employess.push(employee)
@@ -34,10 +32,15 @@ class ITDepartment extends Department {
     super(id, 'IT')
     this.admins = admins
   }
+  discribe() {
+    console.log('IT部門 - ID' + this.id)
+  }
+
 }
 
 class AccountingDepartment extends Department {
   private lastReport: string
+  private static instance: AccountingDepartment
 
   get mostRecentReport() {
     if (this.lastReport) {
@@ -54,9 +57,21 @@ class AccountingDepartment extends Department {
     this.addReport(value)
   }
 
-  constructor(id: string, private reports: string[]) {
+  private constructor(id: string, private reports: string[]) {
     super(id, 'Accounting')
     this.lastReport = reports[0]
+  }
+
+  static getInstance() {
+    if (AccountingDepartment.instance) {
+      return this.instance
+    }
+    this.instance = new AccountingDepartment('d2', [])
+    return this.instance
+  }
+
+  discribe() {
+    console.log('会計部門 - ID' + this.id)
   }
 
   addReport(text: string) {
@@ -92,16 +107,23 @@ it.printEmployeeInfomation()
 
 
 
-const accounting = new AccountingDepartment('d2', [])
+// const accounting = new AccountingDepartment('d2', [])
+
+const accounting = AccountingDepartment.getInstance()
+const accounting2 = AccountingDepartment.getInstance()
+
+console.log(accounting, accounting2)
 
 accounting.mostRecentReport = '通期会計レポート'
 
 accounting.addReport('Something')
-accounting.printReports()
+// accounting.printReports()
 console.log(accounting.mostRecentReport)
+
+accounting.discribe()
 
 
 accounting.addEmployee('Max')
 accounting.addEmployee('Manu')
 
-accounting.printEmployeeInfomation()
+// accounting.printEmployeeInfomation()
