@@ -1,10 +1,18 @@
 class Department {
+  static fiscalYear = 2020
+
   protected employess: string[] = []
+
+  static createEmplyee(name: string) {
+    return { name: name }
+  }
 
   constructor(
     private readonly id: string,
     public name: string,
-  ) { }
+  ) {
+    console.log(Department.fiscalYear)
+  }
 
   discribe(this: Department) {
     console.log(`Department (${this.id}): ${this.name}`)
@@ -67,6 +75,9 @@ class AccountingDepartment extends Department {
     this.employess.push(name)
   }
 }
+
+const employee1 = Department.createEmplyee('Max')
+console.log(employee1, Department.fiscalYear)
 
 const it = new ITDepartment('d1', ['Max'])
 
