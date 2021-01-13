@@ -1,16 +1,22 @@
 class Department {
-  public name: string
+  // private readonly id: string
+  // public name: string
   private employess: string[] = []
 
-  constructor(n: string) {
-    this.name = n
+  constructor(
+    private readonly id: string,
+    public name: string
+  ) {
+    // this.id = id
+    // this.name = n
   }
 
   discribe(this: Department) {
-    console.log('Department: ' + this.name)
+    console.log(`Department (${this.id}): ${this.name}`)
   }
 
   addEmployee(employee: string) {
+    // this.id = 'd2'
     this.employess.push(employee)
   }
 
@@ -20,7 +26,7 @@ class Department {
   }
 }
 
-const accounting = new Department('Accounting')
+const accounting = new Department('d1', 'NEW NAME')
 
 accounting.addEmployee('Max')
 accounting.addEmployee('Manu')
