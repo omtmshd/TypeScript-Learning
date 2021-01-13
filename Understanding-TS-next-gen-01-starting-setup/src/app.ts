@@ -1,5 +1,5 @@
 class Department {
-  private employess: string[] = []
+  protected employess: string[] = []
 
   constructor(
     private readonly id: string,
@@ -40,6 +40,13 @@ class AccountingDepartment extends Department {
   printReports() {
     console.log(this.reports)
   }
+
+  addEmployee(name: string) {
+    if (name === 'Max') {
+      return
+    }
+    this.employess.push(name)
+  }
 }
 
 const it = new ITDepartment('d1', ['Max'])
@@ -56,3 +63,8 @@ it.printEmployeeInfomation()
 const accounting = new AccountingDepartment('d2', [])
 accounting.addReport('Something')
 accounting.printReports()
+
+accounting.addEmployee('Max')
+accounting.addEmployee('Manu')
+
+accounting.printEmployeeInfomation()
